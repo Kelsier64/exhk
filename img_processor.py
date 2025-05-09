@@ -7,7 +7,7 @@ from openai import AzureOpenAI, OpenAI
 from openai import AsyncAzureOpenAI, AsyncOpenAI
 
 # Load environment variables
-load_dotenv()
+load_dotenv(override=True)
 API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
 RESOURCE_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 
@@ -58,7 +58,6 @@ def json_request(messages):
     response = azure_client.chat.completions.create(
         model="gpt4o",
         messages=messages,
-        temperature=0.2,
         response_format={"type": "json_object"}
     )
     return json.loads(response.choices[0].message.content)

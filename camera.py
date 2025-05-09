@@ -1,6 +1,7 @@
 from picamera2 import Picamera2
 import time
 from img_processor import ExamProcessor
+from PIL import Image  # Add this import
 
 # 初始化相機
 camera = Picamera2()
@@ -22,6 +23,15 @@ def take_photo():
     filename = f"{timestamp}.jpg"
     camera.capture_file(filename)
     print(f"照片已儲存: {filename}")
+
+    # Rotate the image
+    try:
+        img = Image.open(filename)
+        rotated_img = img.rotate(90, expand=True)
+        rotated_img.save(filename)
+        print(f"照片已向右旋轉90度: {filename}")
+    except Exception as e:
+        print(f"旋轉照片時發生錯誤: {e}")
 
     # 使用 ExamProcessor 處理拍攝的照片
     print("正在處理圖片...")
